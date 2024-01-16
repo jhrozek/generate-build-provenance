@@ -60524,7 +60524,6 @@ const bundle_1 = __nccwpck_require__(9715);
 const oci_1 = __nccwpck_require__(1871);
 const provenance_1 = __nccwpck_require__(38);
 const sign_1 = __nccwpck_require__(6110);
-const store_1 = __nccwpck_require__(9425);
 const subject_1 = __nccwpck_require__(5206);
 const COLOR_CYAN = '\x1B[36m';
 const COLOR_DEFAULT = '\x1B[39m';
@@ -60576,7 +60575,13 @@ const attest = async (subject, visibility) => {
         core.info(highlight('Attestation signature uploaded to Rekor transparency log'));
         core.info(attestation.tlogURL);
     }
-    const attestationURL = await (0, store_1.writeAttestation)(attestation.bundle, core.getInput('github-token'));
+    /*
+    const attestationURL = await writeAttestation(
+      attestation.bundle,
+      core.getInput('github-token')
+    )
+    */
+    const attestationURL = 'POST /repos/{owner}/{repo}/attestations';
     core.info(highlight('Attestation uploaded to repository'));
     core.info(attestationURL);
     core.summary.addHeading('Attestation Created', 3);
@@ -61264,66 +61269,6 @@ const initBundleBuilder = (opts) => {
     }
     return new sign_1.DSSEBundleBuilder({ signer, witnesses });
 };
-
-
-/***/ }),
-
-/***/ 9425:
-/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
-
-"use strict";
-
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
-    return result;
-};
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.writeAttestation = void 0;
-const github = __importStar(__nccwpck_require__(5438));
-const make_fetch_happen_1 = __importDefault(__nccwpck_require__(9525));
-const CREATE_ATTESTATION_REQUEST = 'POST /repos/{owner}/{repo}/attestations';
-// Upload the attestation to the repository's attestations endpoint. Returns the
-// URL of the uploaded attestation.
-const writeAttestation = async (attestation, token) => {
-    const octokit = github.getOctokit(token, { request: { fetch: make_fetch_happen_1.default } });
-    try {
-        const response = await octokit.request(CREATE_ATTESTATION_REQUEST, {
-            owner: github.context.repo.owner,
-            repo: github.context.repo.repo,
-            data: { bundle: attestation }
-        });
-        const attestationID = response.data?.id;
-        return `${github.context.serverUrl}/${github.context.repo.owner}/${github.context.repo.repo}/attestations/${attestationID}`;
-    }
-    catch (err) {
-        /* istanbul ignore next */
-        const message = err instanceof Error ? err.message : err;
-        throw new Error(`Failed to persist attestation: ${message}`);
-    }
-};
-exports.writeAttestation = writeAttestation;
 
 
 /***/ }),

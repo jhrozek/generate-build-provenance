@@ -87,9 +87,12 @@ const attest = async (
   )
   */
   const attestationURL = 'POST /repos/{owner}/{repo}/attestations'
+  const jsonString = JSON.stringify(attestation.bundle, null, 2)
 
-  core.info(highlight('Attestation uploaded to repository'))
+  core.info(highlight('Pretending that Attestation was uploaded to repository'))
   core.info(attestationURL)
+  core.info(jsonString)
+
   core.summary.addHeading('Attestation Created', 3)
   core.summary.addLink(
     `${subject.name}@${DIGEST_ALGORITHM}:${subject.digest[DIGEST_ALGORITHM]}`,

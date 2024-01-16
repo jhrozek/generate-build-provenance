@@ -80,10 +80,13 @@ const attest = async (
     core.info(attestation.tlogURL)
   }
 
+  /*
   const attestationURL = await writeAttestation(
     attestation.bundle,
     core.getInput('github-token')
   )
+  */
+  const attestationURL = 'POST /repos/{owner}/{repo}/attestations'
 
   core.info(highlight('Attestation uploaded to repository'))
   core.info(attestationURL)

@@ -24,6 +24,8 @@ export const generateProvenance = (
     // Read the SBOM contents from the file path specified in the environment variable
   let sbomContents = '';
   const sbomFilePath = env.SBOM_FILE_PATH || '';
+  console.info("sbom file path")
+  console.info(sbomFilePath)
   if (sbomFilePath) {
     try {
       sbomContents = fs.readFileSync(sbomFilePath, 'utf8');

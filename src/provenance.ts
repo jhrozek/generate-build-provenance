@@ -1,4 +1,5 @@
 import type { Subject } from './subject'
+import fs from 'fs';
 
 const INTOTO_STATEMENT_V1_TYPE = 'https://in-toto.io/Statement/v1'
 export const SLSA_PREDICATE_V1_TYPE = 'https://slsa.dev/provenance/v1'
@@ -20,6 +21,17 @@ export const generateProvenance = (
     .replace(`${env.GITHUB_REPOSITORY}/`, '')
     .split('@')
 
+    // Read the SBOM contents from the file path specified in the environment variable
+  let sbomContents = '';
+  const sbomFilePath = env.SBOM_FILE_PATH || '';
+  if (sbomFilePath) {
+    try {
+      sbomContents = fs.readFileSync(sbomFilePath, 'utf8');
+    } catch (error) {
+      console.error('Error reading SBOM file:', error);
+      // Handle error or set sbomContents to a default value/fallback
+    }
+  }
   return {
     _type: INTOTO_STATEMENT_V1_TYPE,
     subject: [subject],

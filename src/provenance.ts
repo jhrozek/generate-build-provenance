@@ -49,9 +49,9 @@ export const generateProvenance = (
             }
           },
           {
-            name: "SBOM",
-            content: "my little sbom"
-          },
+            name: 'SBOM',
+            content: 'my little sbom'
+          }
         ]
       },
       runDetails: {

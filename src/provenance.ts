@@ -31,7 +31,6 @@ export const generateProvenance = (
       sbomContents = fs.readFileSync(sbomFilePath, 'utf8');
     } catch (error) {
       console.error('Error reading SBOM file:', error);
-      // Handle error or set sbomContents to a default value/fallback
     }
   }
   return {
@@ -64,7 +63,7 @@ export const generateProvenance = (
           },
           {
             name: 'SBOM',
-            content: env.SBOM_CONTENTS
+            content: sbomContents
           }
         ]
       },

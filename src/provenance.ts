@@ -47,7 +47,11 @@ export const generateProvenance = (
             digest: {
               gitCommit: env.GITHUB_SHA
             }
-          }
+          },
+          {
+            name: "SBOM",
+            content: "my little sbom"
+          },
         ]
       },
       runDetails: {

@@ -61169,7 +61169,7 @@ const generateProvenance = (subject, env) => {
                     },
                     {
                         name: 'SBOM',
-                        content: 'my little sbom'
+                        content: env.SBOM_CONTENTS
                     }
                 ]
             },

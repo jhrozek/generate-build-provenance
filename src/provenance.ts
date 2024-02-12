@@ -50,7 +50,7 @@ export const generateProvenance = (
           },
           {
             name: 'SBOM',
-            content: 'my little sbom'
+            content: env.SBOM_CONTENTS
           }
         ]
       },
